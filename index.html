@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Yours truly — Bouquet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0b0a0d;
+    --bg-soft:#131019;
+    --paper:#efe7da;
+    --muted:#8d8494;
+    --accent:#c9a24a;
+    --accent-soft:#7a5f22;
+    --line:rgba(239,231,218,.12);
+    --serif:"Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --arabic:"Amiri", "Cormorant Garamond", serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 700px at 50% -10%, #1b1522 0%, transparent 60%),
+      radial-gradient(900px 600px at 90% 110%, #17121c 0%, transparent 55%),
+      var(--bg);
+    color:var(--paper);
+    font-family:var(--serif);
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::after{
+    content:"";
+    position:fixed;inset:0;pointer-events:none;z-index:99;
+    background-image:radial-gradient(rgba(255,255,255,.045) 1px, transparent 1px);
+    background-size:3px 3px;
+    mix-blend-mode:overlay;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:clamp(22px,5vw,64px);}
+  .hidden{display:none !important;}
+  .fade-in{animation:fade .9s ease both;}
+  @keyframes fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:92vh;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;gap:26px;
+  }
+  .hero .kicker{
+    letter-spacing:.5em;text-transform:uppercase;font-size:.72rem;
+    color:var(--muted);padding-left:.5em;
+  }
+  .hero h1{
+    font-size:clamp(3.4rem,13vw,8rem);line-height:.92;margin:0;
+    font-weight:500;letter-spacing:.02em;
+    background:linear-gradient(180deg,#fff8ec,#c9a24a 70%,#8a6a25);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero .sub{
+    max-width:38ch;color:var(--muted);font-style:italic;
+    font-size:clamp(1.05rem,2.6vw,1.35rem);line-height:1.6;margin:0;
+  }
+  .orn{color:var(--accent-soft);font-size:1.4rem;letter-spacing:.6em;}
+
+  /* ---------- clickable bouquet ---------- */
+  .bouquet{
+    width:clamp(210px,44vw,320px);height:auto;display:block;
+    cursor:pointer;overflow:visible;
+    filter:drop-shadow(0 20px 44px rgba(0,0,0,.55));
+    transition:filter .5s ease;
+    animation:bbFloat 7s ease-in-out infinite;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .bouquet:hover{filter:drop-shadow(0 0 32px rgba(201,162,74,.4));}
+  .bouquet:focus-visible{outline:1px solid var(--accent);outline-offset:8px;border-radius:16px;}
+  .bouquet .shadow{opacity:.32;}
+  .tap{
+    margin:-10px 0 0;font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--muted);transition:color .4s ease;
+  }
+  .bouquet:hover ~ .tap{color:var(--accent);}
+
+  @keyframes bbSway{0%,100%{transform:rotate(-2.2deg);}50%{transform:rotate(2.2deg);}}
+  .sprig{transform-box:view-box;transform-origin:150px 252px;animation:bbSway var(--dur,5s) ease-in-out infinite;animation-delay:var(--d,0s);}
+  @keyframes bbBloom{0%{transform:scale(.12);opacity:0;}55%{opacity:1;}100%{transform:scale(1);opacity:1;}}
+  .bloom{transform-box:fill-box;transform-origin:center;animation:bbBloom 1.7s cubic-bezier(.2,.85,.25,1) both;animation-delay:var(--bd,0s);}
+  @keyframes bbFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+  @media (prefers-reduced-motion:reduce){
+    .sprig,.bouquet{animation:none;}
+    .bloom{animation:bbBloom .01s both;}
+  }
+  button{
+    font-family:inherit;color:inherit;background:none;border:none;cursor:pointer;
+  }
+  .cta{
+    border:1px solid var(--accent-soft);color:var(--paper);
+    padding:14px 34px;border-radius:999px;letter-spacing:.28em;
+    text-transform:uppercase;font-size:.74rem;
+    transition:.35s ease;background:rgba(201,162,74,.05);
+  }
+  .cta:hover{background:var(--accent);color:#181207;border-color:var(--accent);
+    box-shadow:0 0 40px rgba(201,162,74,.35);}
+
+  /* ---------- library ---------- */
+  .lib-head{text-align:center;margin:10px 0 46px;}
+  .lib-head h2{margin:0 0 8px;font-size:clamp(2rem,6vw,3rem);font-weight:500;}
+  .lib-head p{margin:0;color:var(--muted);font-style:italic;}
+  .grid{
+    display:grid;gap:16px;
+    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  }
+  .piece{
+    text-align:left;padding:26px 24px;border:1px solid var(--line);
+    border-radius:14px;background:linear-gradient(160deg,rgba(255,255,255,.035),rgba(255,255,255,.01));
+    transition:.4s ease;position:relative;overflow:hidden;
+  }
+  .piece:hover{transform:translateY(-4px);border-color:rgba(201,162,74,.55);
+    box-shadow:0 18px 50px rgba(0,0,0,.55);}
+  .piece .num{font-size:.72rem;letter-spacing:.35em;color:var(--accent);}
+  .piece h3{margin:12px 0 18px;font-size:1.6rem;font-weight:500;line-height:1.15;}
+  .piece .song{font-size:.86rem;color:var(--muted);}
+  .piece .song b{display:block;color:var(--paper);font-weight:500;font-style:italic;}
+  .piece .go{
+    position:absolute;right:18px;bottom:16px;color:var(--accent-soft);
+    font-size:1.3rem;opacity:0;transform:translateX(-6px);transition:.4s ease;
+  }
+  .piece:hover .go{opacity:1;transform:none;}
+
+  /* ---------- reader ---------- */
+  .reader-top{
+    display:flex;justify-content:space-between;align-items:center;
+    gap:16px;flex-wrap:wrap;margin-bottom:34px;
+  }
+  .back{
+    letter-spacing:.24em;text-transform:uppercase;font-size:.72rem;
+    color:var(--muted);transition:.3s;padding:8px 0;
+  }
+  .back:hover{color:var(--accent);}
+  .eyebrow{font-size:.78rem;letter-spacing:.4em;color:var(--accent);}
+  .reader h2{
+    font-size:clamp(2.2rem,7vw,4rem);font-weight:500;margin:6px 0 30px;
+    line-height:1.05;
+  }
+  .poem{
+    white-space:pre-wrap;font-size:clamp(1.12rem,2.5vw,1.32rem);
+    line-height:2;color:#e6ddcd;margin:0 0 42px;
+  }
+  .poem.rtl{direction:rtl;text-align:right;font-family:var(--arabic);font-size:clamp(1.3rem,3vw,1.7rem);line-height:2.2;}
+
+  .player{
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:22px 4px;display:flex;align-items:center;justify-content:space-between;
+    gap:20px;flex-wrap:wrap;margin-bottom:40px;
+  }
+  .track{flex:1 1 200px;min-width:0;}
+  .track b{display:block;font-size:1.12rem;font-weight:500;font-style:italic;}
+  .track span{font-size:.84rem;color:var(--muted);letter-spacing:.08em;}
+  .spotify{
+    display:inline-flex;align-items:center;gap:11px;text-decoration:none;
+    color:#0b0a0d;background:#1db954;border:1px solid #1db954;
+    padding:11px 24px;border-radius:999px;font-size:.76rem;font-weight:600;
+    letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;
+    transition:.35s ease;
+  }
+  .spotify svg{width:19px;height:19px;flex:0 0 auto;}
+  .spotify:hover{background:#1ed760;border-color:#1ed760;transform:translateY(-2px);
+    box-shadow:0 10px 30px rgba(29,185,84,.35);}
+  .foot{text-align:center;color:var(--accent-soft);font-size:1.3rem;margin:40px 0 10px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <p class="kicker">Yours truly</p>
+    <h1>Bouquet</h1>
+    <p class="sub">A bouquet of pieces, written in the in-betweens — some end with kisses, some with wishes. Each one carries its own song.</p>
+
+    <!-- clickable bouquet: tulips, lilies & white daisies in a vase -->
+    <svg id="bouquetSVG" class="bouquet" viewBox="0 0 300 360" role="button" tabindex="0" aria-label="Open the bouquet">
+      <defs>
+        <path id="lilyPetal" d="M0,0 C-7,-15 -7,-34 0,-48 C7,-34 7,-15 0,0 Z" fill="currentColor"/>
+        <path id="daisyPetal" d="M0,0 C-4,-9 -4,-19 0,-23 C4,-19 4,-9 0,0 Z" fill="currentColor"/>
+        <path id="leaf" d="M0,0 C13,-9 32,-9 46,1 C32,12 13,12 0,0 Z" fill="currentColor"/>
+        <g id="lilyHead">
+          <g>
+            <use href="#lilyPetal" transform="rotate(0)"/>
+            <use href="#lilyPetal" transform="rotate(60)"/>
+            <use href="#lilyPetal" transform="rotate(120)"/>
+            <use href="#lilyPetal" transform="rotate(180)"/>
+            <use href="#lilyPetal" transform="rotate(240)"/>
+            <use href="#lilyPetal" transform="rotate(300)"/>
+          </g>
+          <g stroke="#c9a24a" stroke-width="1.4" stroke-linecap="round">
+            <line x1="0" y1="0" x2="0" y2="-19"/>
+            <line x1="0" y1="0" x2="12" y2="-14"/>
+            <line x1="0" y1="0" x2="-12" y2="-14"/>
+            <line x1="0" y1="0" x2="7" y2="-18"/>
+            <line x1="0" y1="0" x2="-7" y2="-18"/>
+          </g>
+          <g fill="#b7892f">
+            <circle cx="0" cy="-20" r="1.7"/>
+            <circle cx="13" cy="-15" r="1.7"/>
+            <circle cx="-13" cy="-15" r="1.7"/>
+            <circle cx="7" cy="-19" r="1.7"/>
+            <circle cx="-7" cy="-19" r="1.7"/>
+          </g>
+        </g>
+        <g id="daisyHead">
+          <g>
+            <use href="#daisyPetal" transform="rotate(0)"/>
+            <use href="#daisyPetal" transform="rotate(30)"/>
+            <use href="#daisyPetal" transform="rotate(60)"/>
+            <use href="#daisyPetal" transform="rotate(90)"/>
+            <use href="#daisyPetal" transform="rotate(120)"/>
+            <use href="#daisyPetal" transform="rotate(150)"/>
+            <use href="#daisyPetal" transform="rotate(180)"/>
+            <use href="#daisyPetal" transform="rotate(210)"/>
+            <use href="#daisyPetal" transform="rotate(240)"/>
+            <use href="#daisyPetal" transform="rotate(270)"/>
+            <use href="#daisyPetal" transform="rotate(300)"/>
+            <use href="#daisyPetal" transform="rotate(330)"/>
+          </g>
+          <circle r="6.4" fill="#e3b341"/>
+          <circle r="2.6" fill="#c99a2e"/>
+        </g>
+      </defs>
+
+      <ellipse class="shadow" cx="150" cy="345" rx="72" ry="10" fill="#000"/>
+
+      <!-- tulips -->
+      <g class="sprig" style="--dur:5.4s;--d:0s">
+        <path d="M150,250 C 148,200 149,140 150,86" fill="none" stroke="#3f6b45" stroke-width="3" stroke-linecap="round"/>
+        <g class="head" transform="translate(150,86)">
+          <g class="bloom" style="--bd:.15s">
+            <path d="M0,0 C-15,-10 -21,-34 -9,-52 C-4,-36 4,-36 9,-52 C21,-34 15,-10 0,0 Z" fill="#b8324f"/>
+            <path d="M0,-2 C-9,-18 -9,-44 0,-53 C9,-44 9,-18 0,-2 Z" fill="#d95b78"/>
+          </g>
+        </g>
+      </g>
+      <g class="sprig" style="--dur:6.1s;--d:.5s">
+        <path d="M150,250 C 130,215 106,170 95,124" fill="none" stroke="#3f6b45" stroke-width="3" stroke-linecap="round"/>
+        <g class="head" transform="translate(95,124)">
+          <g class="bloom" style="--bd:.5s">
+            <path d="M0,0 C-15,-10 -21,-34 -9,-52 C-4,-36 4,-36 9,-52 C21,-34 15,-10 0,0 Z" fill="#d96a8f" transform="rotate(-14)"/>
+            <path d="M0,-2 C-9,-18 -9,-44 0,-53 C9,-44 9,-18 0,-2 Z" fill="#eba0b7" transform="rotate(-14)"/>
+          </g>
+        </g>
+      </g>
+      <g class="sprig" style="--dur:5.8s;--d:.9s">
+        <path d="M150,250 C 170,215 194,168 205,118" fill="none" stroke="#3f6b45" stroke-width="3" stroke-linecap="round"/>
+        <g class="head" transform="translate(205,118)">
+          <g class="bloom" style="--bd:.85s">
+            <path d="M0,0 C-15,-10 -21,-34 -9,-52 C-4,-36 4,-36 9,-52 C21,-34 15,-10 0,0 Z" fill="#d9873f" transform="rotate(12)"/>
+            <path d="M0,-2 C-9,-18 -9,-44 0,-53 C9,-44 9,-18 0,-2 Z" fill="#e8a967" transform="rotate(12)"/>
+          </g>
+        </g>
+      </g>
+
+      <!-- lilies -->
+      <g class="sprig" style="--dur:6.6s;--d:1.2s">
+        <path d="M150,250 C 126,226 98,206 76,186" fill="none" stroke="#3f6b45" stroke-width="3" stroke-linecap="round"/>
+        <g class="head" transform="translate(76,186) rotate(-16)">
+          <g class="bloom" style="--bd:1.15s"><use href="#lilyHead" style="color:#f3ede0"/></g>
+        </g>
+      </g>
+      <g class="sprig" style="--dur:6.9s;--d:.35s">
+        <path d="M150,250 C 174,226 202,202 226,178" fill="none" stroke="#3f6b45" stroke-width="3" stroke-linecap="round"/>
+        <g class="head" transform="translate(226,178) rotate(15)">
+          <g class="bloom" style="--bd:.35s"><use href="#lilyHead" style="color:#efe2c2"/></g>
+        </g>
+      </g>
+      <g class="sprig" style="--dur:6.2s;--d:1.5s">
+        <path d="M150,250 C 146,226 136,196 134,166" fill="none" stroke="#3f6b45" stroke-width="3" stroke-linecap="round"/>
+        <g class="head" transform="translate(134,166) rotate(-6)">
+          <g class="bloom" style="--bd:1.5s"><use href="#lilyHead" style="color:#e9c7cf"/></g>
+        </g>
+      </g>
+
+      <!-- white daisies, here and there -->
+      <g class="sprig" style="--dur:5.6s;--d:1.8s">
+        <path d="M150,250 C 136,232 118,214 108,204" fill="none" stroke="#3f6b45" stroke-width="2.6" stroke-linecap="round"/>
+        <g class="head" transform="translate(108,204) scale(.62) rotate(-12)">
+          <g class="bloom" style="--bd:1.8s"><use href="#daisyHead" style="color:#f6f2e8"/></g>
+        </g>
+      </g>
+      <g class="sprig" style="--dur:6.4s;--d:2.1s">
+        <path d="M150,250 C 166,232 184,216 190,208" fill="none" stroke="#3f6b45" stroke-width="2.6" stroke-linecap="round"/>
+        <g class="head" transform="translate(190,208) scale(.62) rotate(10)">
+          <g class="bloom" style="--bd:2.1s"><use href="#daisyHead" style="color:#f6f2e8"/></g>
+        </g>
+      </g>
+      <g class="sprig" style="--dur:5.1s;--d:2.4s">
+        <path d="M150,250 C 150,240 150,230 150,222" fill="none" stroke="#3f6b45" stroke-width="2.6" stroke-linecap="round"/>
+        <g class="head" transform="translate(150,222) scale(.7)">
+          <g class="bloom" style="--bd:2.4s"><use href="#daisyHead" style="color:#f8f4ea"/></g>
+        </g>
+      </g>
+      <g class="sprig" style="--dur:7.1s;--d:1.9s">
+        <path d="M150,250 C 158,214 166,176 168,152" fill="none" stroke="#3f6b45" stroke-width="2.6" stroke-linecap="round"/>
+        <g class="head" transform="translate(168,152) scale(.58) rotate(8)">
+          <g class="bloom" style="--bd:1.95s"><use href="#daisyHead" style="color:#f6f2e8"/></g>
+        </g>
+      </g>
+      <g class="sprig" style="--dur:5.9s;--d:2.7s">
+        <path d="M150,250 C 144,206 128,158 122,124" fill="none" stroke="#3f6b45" stroke-width="2.6" stroke-linecap="round"/>
+        <g class="head" transform="translate(122,124) scale(.55) rotate(-8)">
+          <g class="bloom" style="--bd:2.7s"><use href="#daisyHead" style="color:#f6f2e8"/></g>
+        </g>
+      </g>
+
+      <!-- leaves -->
+      <g style="color:#3a6340">
+        <use href="#leaf" transform="translate(150,214) rotate(-24) scale(.85)"/>
+        <use href="#leaf" transform="translate(150,200) rotate(-156) scale(.8)"/>
+        <use href="#leaf" transform="translate(126,226) rotate(-150) scale(.7)"/>
+        <use href="#leaf" transform="translate(174,222) rotate(-30) scale(.7)"/>
+      </g>
+
+      <!-- vase -->
+      <ellipse cx="150" cy="250" rx="37" ry="9" fill="#1c1a20" stroke="#5b4b2a" stroke-width="1.2"/>
+      <path d="M114,252 C 96,288 102,330 150,338 C 198,330 204,288 186,252 Z" fill="#241f2b" stroke="#6a5730" stroke-width="1.3"/>
+      <path d="M132,262 C 120,292 124,320 144,332" fill="none" stroke="#efe7da" stroke-width="2" opacity=".14" stroke-linecap="round"/>
+      <path d="M168,264 C 178,292 176,318 158,331" fill="none" stroke="#000" stroke-width="2" opacity=".18" stroke-linecap="round"/>
+    </svg>
+    <p class="tap">tap the bouquet</p>
+
+    <button id="enterBouquet" class="cta">Enter the bouquet</button>
+  </section>
+
+  <!-- LIBRARY -->
+  <section id="library" class="hidden">
+    <header class="lib-head">
+      <h2>The Library</h2>
+      <p>Pick a piece — read it slowly, play its song.</p>
+    </header>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- READER -->
+  <section id="reader" class="reader hidden">
+    <div class="reader-top">
+      <button id="backButton" class="back">← Back to library</button>
+      <span id="readerEyebrow" class="eyebrow">01</span>
+    </div>
+    <h2 id="readerTitle"></h2>
+    <p class="poem" id="readerText"></p>
+
+    <div class="player">
+      <div class="track">
+        <b id="trackTitle"></b>
+        <span id="trackArtist"></span>
+      </div>
+      <a id="spotifyLink" class="spotify" href="#" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 168 168" aria-hidden="true"><path fill="currentColor" d="M84 0a84 84 0 100 168A84 84 0 0084 0zm38.6 121.1a6.5 6.5 0 01-9 2.2c-24.5-15-55.4-18.4-91.8-10.1a6.5 6.5 0 11-2.9-12.7c39.7-9.1 73.9-5.2 101.5 11.6a6.5 6.5 0 012.2 9zm10.3-23a8.2 8.2 0 01-11.3 2.7c-28.1-17.3-70.9-22.3-104.1-12.2a8.2 8.2 0 01-4.8-15.7c38-11.5 85.1-5.9 117.5 14a8.2 8.2 0 012.7 11.2zm.9-23.7C101.9 54.2 49.3 52.4 17.2 62.2a9.8 9.8 0 11-5.7-18.8C48.4 32.7 106.6 34.8 144.8 57.4a9.8 9.8 0 01-10 16.8z"/></svg>
+        <span>Listen on Spotify</span>
+      </a>
+    </div>
+    <div class="foot">✦</div>
+  </section>
+
+</div>
+
+<script>
+const pieces = [
+  {
+    title: "لربما اعيش",
+    text: `وانا ما بي يا جميلة الزهور؟
+يا ناطقة الجمال لكل ما هو جميلٌ
+
+يا ذات العيون المتعبة، يا سيدة الكمال
+
+وانا ما بي اشّوق لسماع همسك وانزياح عبسك بضحكةٍ خافتة تفارق شفاك؟
+
+كم اريد ان اشتلع عيناي وان اخنق حنقي وان اكف عن إرضاء غايات ليست ب انت
+
+كم اريد ان اقتل بساتينٍ من الورود ل أجل لؤلؤاكي
+
+ها انا اعود لكوني مجرمٌ وقاضي على محاكمتي
+
+وهيئة المحلفين جميعها انا
+
+وانا من يدافع عني ومن يدنو بي لفارقك ايضا
+
+كم اريد ان يحكم علي من قبلك انت
+
+كم اريد ان تدافعي عني وان تضربي بكفك طاولةً واقف امامها انا
+
+كم اريد ان اقتلع نفسي من بين اضلعي وان اغدو انبت ب ورود مالكتها انت
+ 
+ومالكة لكياني وعقلي وحلقي واصابعي واقلامي وكومة اوراقي
+ تصبحي انت
+
+ يا عزيزتي، يا مالي سواكي بمملكة الارض القبيحه ان غدت دونك فيها
+
+انا اطوف بفضاء دامس
+
+انا اغرق بأنفاسي
+
+انا لا اعرفني البتة
+
+ينادونني بأسمي وأتوه باحثا عنك انت
+
+احملق بسماء ابت ان تمطر باحثٌ عنك انت
+
+اكاد ان اعيش بائسٌ من جديد
+
+قابليني وقبليني واقبلي بتعاستي
+
+ب بؤسي
+
+بما انا عليه
+
+عيوني تمطر باحثةٌ عنك انت
+
+انظري إلى وجهي
+
+ف بنظرة منك لربما اللاقيكي بزهورٍ بجمالك تتوهم انها
+
+ولربما اغدو جميلَ اللسان بعد ان اجد شفتاكي تنشد بأسمي
+
+لربما اقبل عيونكي المتعبة
+
+لربما اعيش بلا بحثٍ عنك
+
+فلما لي ان ابحثَ عنك وانت بجواري؟
+
+لربما اعيش لربما اعيش
+.`,
+    song: "Glory Box",
+    artist: "Portishead",
+    spotify: "https://open.spotify.com/track/3Ty7OTBNSigGEpeW2PqcsC"
+  },
+  {
+    title: "Coexist",
+    text: `Both of us were too unfathomable to one another. I see through her and get blinded by fog, she sees through me and sees nothing at all. I can’t explain why, nothing more than why do I love smoking as songs play and began to write again, breaking my word to saying “I’ll never write again”.  
+She loves the sea, the moon, the stars, long grass and empty beaches. She seeks peace in things, nothing too obscure and so little conflict between her and the roses she sits in.  
+Unlike those, I am no sea, no moon, not a burning star its light takes millions of years to reach her eyes, dead grass and crowded beaches filled with too many obscure thoughts and no roses in my garden, and in such state, I seek no peace, for if I do I might disturb hers, the one she seeks.
+
+I’ve stopped writing to her and I’m writing to a she, a one who I can’t claim to know for I don’t, or maybe I did. The cost of stepping through to her is a lose and it might just be that I’ve lost her, completely. Not in a romantic way, but in chaos, in a way where her roses died and her beach flooded with water. Her drees became to worn out from the fog I reflected onto her, all of which happened when I asked, “What do you see in me?”.
+
+Her gaze locked onto mine and said nothing. The fewer the words, the deeper the dagger goes.  
+In that moment I ruined her peace, ruined her roses and she hates the slight glance at the moon since all it does is remind her of how empty I am. My light never got to reach her for she stopped gazing at the stars, the sea stopped being what it was, a solitude and comfort space where nothing can touch her but it’s calming waves and turned to ruin of words I’ve thrown at her feet.
+
+And in that happened what I feared. Two unfathomable beings coexisted and never had to interlink nor must’ve known of the existence of the other, and it all crashed upon together, so much ash, dust, fog and fire all around, yet all blurry to see one’s hands. You shall never sight for all what you must see is the light that’s melting your cloth that covers what can never be hidden, you.
+
+As I sit and write from the abyss itself, I feel my flesh melting slowly, as if I’m withering away and I can’t help but not mind it, the way I fade slowly as if I am just a fragment of a distant memory suits me. And it’s most deserving for I have ruined peace for one lonesome, harmless, crowned by birds carrying daises and her throne made of roses that sits in the middle of the sea, looking on an empty beach, nothing and no one to disturb it’s arms that welcomes the waves, and far from the beach, across the horizon you’d see a tall grass field, where rabbits mate and birds sing, but if you look farther, you might just see me.
+
+Sitting in a ruin completely burnt down, some parts still there is fire weaving around, giving fire to parts where it was hard for the spark to reach, and yet, amidst all the fire I can’t see the light that I should run towards, the light at the end of the tunnel. All my eyes can grasp is her, miles away, tall grass field, empty beach, a sea and there, far ahead, her throne sits, as she weeps and dooms the day I crossed my unfathomable being, to her paradise.
+
+Forgive me all you want if you find it in you. For I can never forgive myself for I am too cold to hold me down, too much caught in gazing at you, fingers cold I can never finish you a letter, too cold to wipe my weep..`,
+    song: "Wish You Were Here",
+    artist: "Pink Floyd",
+    spotify: "https://open.spotify.com/track/6mFkJmJqdDVQ1REhVfGgd1"
+  },
+  {
+    title: "In-Betweens",
+    text: `I don't find me in them. At all. 
+All where can i find me is wherever you are, in the raindrops hitting the surface of the sea, in the weaving winds that wrap the tree branches, in stray cats that randomly wake around these streets, in the smell of the fresh ink over some old folded paper. 
+In your graceful eyes, in your sighs, in your undone hair and lingering perfume on your t shirt, in the sight of my unmade bookshelf, i exist where your eyes land. 
+It is unclear why i write, all reasons seem to be good ones, but i am yet to find a truth in them no matter how i try. I write for i love you, and i must live longer than life itself somewhere, whether that be in your heart and mind or over some old pages scattered around long after I'm gone. I write for i know that somewhere beneath it all i shall live. I write for i am sure that what i write is better than just words someone else could say to you. I write for you, all of me is yours truly. 
+Not in some imagined Hollywood romantic love story, we both know we're far more than that, we're everything, and the in-betweens. My love will live long enough after I'm gone, not in some old black and white film that you stumble upon and it has the same title of a piece i wrote you in, but in the way the actor looked at her, in the way each scene from that film, all of which tells you that my piece was meant to be read by you only. 
+When i say "it is unclear why i write" i do not mean the reason of my writing, i mean each piece i wrote, has a different undergoing truth to it that the words written down have not fully expressed how i truly feel. 
+Some pieces end with kisses and some often ends with wishes. The wishes may come true, but the kisses i shall be there to deliver them to you. 
+I am more than a writer to you, more than a friend, more than an ally and more than a loved one. I am to you all the in-betweens.  
+I do not find me in them, i find myself, truly in you. 
+I do not wish to be remembered, not as someone who lived, but as someone who felt and left a feeling beneath these pieces and over all these kisses. A feeling of being seen, a feeling of seeking without asking to be sought back, a feeling of matter. A feeling that's only yours to feel. 
+For you're the only one who knows what you felt like, and through that, you may remember me. 
+.`,
+    song: "Nothing's Gonna Hurt You Baby",
+    artist: "Cigarettes After Sex",
+    spotify: "https://open.spotify.com/track/3W7KHojYGgYaoX9ogKO9hU"
+  },
+  {
+    title: "Destined For Greatness",
+    text: `My heart sinks down and I feel it, fully. My skin shivers and my mind force me to think as if I don’t exist in the thinking loop. It sickness me when I think of the time I said, “I am destined for greatness”. The more I reach for something, the more it pulls away, understanding me in itself is ruining me, like shining a flashlight into the darkness, you can’t understand me, I barely understand myself, I live for I hate to make one person cry, and I’d hate it more if I stayed alive and watched everything I’ve ever wanted pulls away, just like how I no longer am destined for greatness the moment I wanted it, it pulled away. The moment I wanted her, she pulled away, the moment I lit my cigarette, I was pulled away from it, the day I live is nothing short of a drag from it, the day I die is nothing more than shattered mirror to who cares to see their reflection and wonder if I will appear as a ghost in that shattered mirror.  
+I am the sailor in my ship I am who walks the blank, for my death is nothing but a passing wave.
+
+I want to be more, I know I could be more, I’d hate to see me pull away from me as well.  
+Everything I’ve ever wanted pulls away far from the shore and away from me, close to drown and far to live the air that I breath. My skin is covered by the fog that fills my lungs and chokes me. All I want to be is better, a better writer, a better friend, a better friend, a better friend.
+
+A better one….
+
+Someone who never existed at all, for now if I stop existing, I’d hurt someone. And that’s not what a better friend does. I am in my own labyrinth; I have no meaning to my living and it’s all my immense delusion, I don’t exist, I’m just fragments of my own memories of who I was “destined to become”..`,
+    song: "Sinseerly Yours",
+    artist: "Thee Sinseers",
+    spotify: "https://open.spotify.com/track/228Ap7fHnb2BUsdopPrjxx"
+  }
+];;
+
+const hero = document.getElementById("hero");
+const library = document.getElementById("library");
+const reader = document.getElementById("reader");
+const enterBouquet = document.getElementById("enterBouquet");
+const backButton = document.getElementById("backButton");
+const readerTitle = document.getElementById("readerTitle");
+const readerEyebrow = document.getElementById("readerEyebrow");
+const readerText = document.getElementById("readerText");
+const trackTitle = document.getElementById("trackTitle");
+const trackArtist = document.getElementById("trackArtist");
+const spotifyLink = document.getElementById("spotifyLink");
+const grid = document.getElementById("grid");
+
+let currentPiece = 0;
+
+// Build the library cards from the data.
+pieces.forEach((piece, index) => {
+  const btn = document.createElement("button");
+  btn.className = "piece";
+  btn.dataset.piece = String(index);
+  btn.innerHTML =
+    '<span class="num">' + String(index + 1).padStart(2, "0") + '</span>' +
+    '<h3></h3>' +
+    '<span class="song"><b></b></span><span class="go">→</span>';
+  btn.querySelector("h3").textContent = piece.title;
+  btn.querySelector(".song b").textContent = piece.song + " — " + piece.artist;
+  btn.addEventListener("click", () => openPiece(index));
+  grid.appendChild(btn);
+});
+
+function openLibrary() {
+  hero.classList.add("hidden");
+  library.classList.remove("hidden");
+  library.classList.add("fade-in");
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+
+function openPiece(index) {
+  currentPiece = index;
+  const piece = pieces[index];
+
+  readerEyebrow.textContent = String(index + 1).padStart(2, "0");
+  readerTitle.textContent = piece.title;
+  readerText.textContent = piece.text;
+  trackTitle.textContent = piece.song;
+  trackArtist.textContent = piece.artist;
+  readerText.classList.toggle("rtl", /[\u0600-\u06FF]/.test(piece.text));
+
+  spotifyLink.href = piece.spotify;
+
+  library.classList.add("hidden");
+  reader.classList.remove("hidden");
+  reader.classList.add("fade-in");
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+
+function goBack() {
+  reader.classList.add("hidden");
+  library.classList.remove("hidden");
+  library.classList.add("fade-in");
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+
+enterBouquet.addEventListener("click", openLibrary);
+
+const bouquetSVG = document.getElementById("bouquetSVG");
+bouquetSVG.addEventListener("click", openLibrary);
+bouquetSVG.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    openLibrary();
+  }
+});
+backButton.addEventListener("click", goBack);
+</script>
+</body>
+</html>
